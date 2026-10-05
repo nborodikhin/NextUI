@@ -472,7 +472,7 @@ void renderPage()
     const Uint32 charging_color_rgb = SDL_MapRGBA(screen->format, charging_color.r, charging_color.g, charging_color.b, charging_color.a);
     const Uint32 estimated_color_rgb = SDL_MapRGBA(screen->format, estimated_color.r, estimated_color.g, estimated_color.b, estimated_color.a);
 
-    const Uint32 red_battery_color = SDL_MapRGBA(screen->format, 255, 0, 0, 255);
+    const uint32_t red_battery_color = 0xff0000ff;
 
     const struct SDL_Point tl = {graph.layout.graph_display_start_x, graph.layout.graph_display_start_y};
     const struct SDL_Point br = {graph.layout.graph_display_start_x + graph.layout.graph_display_size_x, graph.layout.graph_display_start_y + graph.layout.graph_display_size_y};
