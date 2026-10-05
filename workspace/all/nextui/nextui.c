@@ -2286,8 +2286,12 @@ int main (int argc, char *argv[]) {
 		currentScreen = SCREEN_GAMESWITCHER;
 	}
 
-	if(currentScreen == SCREEN_GAMESWITCHER)
+	bool fadeInFromBlack = true;
+	if (currentScreen == SCREEN_GAMESWITCHER) {
 		lastScreen = SCREEN_GAME;
+		// Game switcher animates from screenshot on opening
+		fadeInFromBlack = false;
+	}
 
 	// make sure we have no running games logged as active anymore (we might be launching back into the UI here)
 	system("gametimectl.elf stop_all");
@@ -2642,7 +2646,6 @@ int main (int argc, char *argv[]) {
 		if(dirty && !startgame) {
 			SDL_Surface *tmpOldScreen = NULL;
 			SDL_Surface * switcherSur = NULL;
-			bool fadeInFromBlack = lastScreen == SCREEN_OFF;
 			// NOTE:22 This causes slowdown when CFG_getMenuTransitions is set to false because animationdirection turns > 0 somewhere but is never set back to 0 and so this code runs on every action, will fix later
 			if(animationdirection != ANIM_NONE || (lastScreen==SCREEN_GAMELIST && currentScreen == SCREEN_GAMESWITCHER)) {
 				if(tmpOldScreen) SDL_FreeSurface(tmpOldScreen);
@@ -3267,6 +3270,7 @@ int main (int argc, char *argv[]) {
 				// The fade uses the scroll-text layer (the top one in use) for the picture
 				// and its cover, and clears it after. The next pass draws it again.
 				GFX_animateBlack(LAYER_SCROLLTEXT, 255, 0, CFG_getAppStartExitAnimationDuration());
+				fadeInFromBlack = 0;
 				dirty = 1;
 			} else {
 				GFX_flip(screen);
